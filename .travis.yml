@@ -2,8 +2,6 @@ language: rust
 cache: cargo
 rust:
   - stable
-  - beta
-  - nightly
 
 addons:
   apt:
@@ -16,13 +14,18 @@ env:
   # Ensure that we build without warnings.
   - CARGO_FLAGS="--features 'strict'"
 
-script:
-  # Configure Emacs for building
-  - ./autogen.sh
-  - ./configure
-  - make -j 3
+services:
+  - docker
 
-  - make check || echo 'make check failed'
+script:
+  # https://github.com/travis-ci/travis-ci/issues/5770#issuecomment-197771661
+  - "docker run -i -v \"${PWD}:/remacs\" toopher/centos-i386:centos6 /bin/bash -c \"linux32 --32bit i386 /remacs/.32_bit_build.sh\""
+  # # Configure Emacs for building
+  # - ./autogen.sh
+  # - ./configure
+  # - make -j 3
+
+  # - make check || echo 'make check failed'
 
 notifications:
   fast_finish: true
