@@ -5,8 +5,8 @@
 set -e
 set -x
 
-# The chroot path is here.
 cd /remacs
 
+./autogen.sh
 ./configure
 make -j 3
