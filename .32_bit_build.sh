@@ -5,6 +5,9 @@
 set -e
 set -x
 
+apt-get -qq update
+apt-get install build-essential autoconf
+
 cd /remacs
 
 ./autogen.sh
